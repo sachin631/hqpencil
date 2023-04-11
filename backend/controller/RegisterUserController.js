@@ -56,7 +56,7 @@ exports.userLogin = async (req, res) => {
         //generate the cookie
         res.cookie("FullStackCookie", token, {
           expires: new Date(Date.now() + 90000000),
-          httpOnly: true,
+          httpOnly: false,
         });
 
         res.status(200).json({ message: "userFound", token: token });

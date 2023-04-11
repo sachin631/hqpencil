@@ -1,16 +1,29 @@
-import React, { useEffect } from "react";
-import { NavLink } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
 import { FiShoppingCart } from "react-icons/fi";
-import { getuserdetailsafterlogin } from "../services/apis";
+import { LogOut, getuserdetailsafterlogin } from "../services/apis";
 
 const Nav = () => {
+  const [responsed, setResponsed] = useState();
+  const navigate=useNavigate();
   useEffect(() => {
     async function fecthData() {
-      console.log("nav.js");
       const response = await getuserdetailsafterlogin();
-      console.log(response);
-    }fecthData(); //do not make calback function of useEffect  async await you can use sepraet one
+      if (response.data.success == true) {
+        setResponsed(response);
+      }
+    }
+    fecthData(); //do not make calback function of useEffect  async await you can use sepraet one
   }, []);
+  console.log(responsed);
+
+  //logout api on logout button
+  const logOutButton=async()=>{
+    await LogOut();
+    navigate("/login");
+    
+  }
+
   return (
     <>
       <div className="fixed top-0 w-[100%] bg-white">
@@ -33,10 +46,20 @@ const Nav = () => {
               <NavLink to="/contact">
                 <li className="hover:text-red-600">CONTACT</li>
               </NavLink>
-              <p className="text-gray-500 font-normal">Welcome, Vaibhav</p>
-              <button class="logout-btn">LOG OUT</button>
+              <p className="text-gray-500 font-normal ">
+                Welcome ,{" "}
+                <span className="font-bold text-red-500">
+                  {responsed ? responsed.data.userfound.name : "User"}
+                </span>{" "}
+              </p>
+              {responsed && <button class="logout-btn" onClick={logOutButton}>LOG OUT</button>}
+            {!responsed && <NavLink to="/login"><button class="logout-btn" >LOG IN</button></NavLink>}
               <NavLink to="/cart">
                 <li className="text-lg">
+                  <div className="text-center text-sm">
+                    {" "}
+                    {responsed ? responsed.data.userfound.cart.length : ""}
+                  </div>
                   <FiShoppingCart />
                 </li>
               </NavLink>

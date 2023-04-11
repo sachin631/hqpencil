@@ -20,4 +20,14 @@ export const getuserdetailsafterlogin=async()=>{
 }
 
 
+export const LogOut=async()=>{
+    return await commonRequest("GET",`${BASE_URL}/logout`);
+}
+
+
+export const RegisterUser=async(data)=>{
+    return await commonRequest("POST",`${BASE_URL}/registeruserpost`,data);
+}
+
+
 

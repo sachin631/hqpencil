@@ -1,9 +1,11 @@
+const { useParams } = require("react-router-dom");
 const productModel = require("../models/ProductModel");
+const RegisterUserModel = require("../models/userModel/RegisterUserModel");
 
 //store the products in dataBase
 exports.storeproductss = async (req, res) => {
   try {
-    req.body.user=req.userId //getting the user id created while userModel is formened and logini//this is just to determine who enter or which admin enter new products
+    req.body.user = req.userId; //getting the user id created while userModel is formened and logini//this is just to determine who enter or which admin enter new products
     const {
       name,
       description,
@@ -15,7 +17,6 @@ exports.storeproductss = async (req, res) => {
       review,
       user,
       createdAt,
-     
     } = req.body;
 
     const ProductData = new productModel({
@@ -122,5 +123,69 @@ exports.pagination = async (req, res) => {
     res.status(200).json({ success: true, message: allProducts });
   } catch (error) {
     res.status(400).json({ success: false, message: error.message });
+  }
+};
+
+//add to cart api
+exports.addToCart = async (req, res) => {
+  try {
+    const { _id } = req.params;
+    //find product which want to store at cart
+    const findProduct = await productModel.findOne({ _id: _id });
+    console.log(findProduct);
+    if (!findProduct) {
+      res.status(400).json({ message: "product not found" });
+    }
+    //find user where data is store
+    const userID = req.userID;
+    const findUser = await RegisterUserModel.findOne(userID);
+
+    let foundProduct = false;
+
+    findUser.cart.forEach((curelem) => {
+      if (curelem.product._id == _id) {
+        curelem.quantity += 1;
+        foundProduct = true;
+        return;
+      }
+    });
+
+    if (!foundProduct) {
+      findUser.cart.push({
+        product: findProduct,
+        quantity: 1,
+      });
+    }
+    await findUser.save();
+    res.status(200).json({ user: findUser });
+  } catch (error) {
+    res.status(400).json({ success: false, error: error });
+  }
+};
+
+//delete to cart api
+
+exports.deleteCart = async (req, res) => {
+  try {
+    const { _id } = req.params;
+    //find product which want to store at cart
+    const findProduct = await productModel.findOne({ _id: _id });
+    // console.log(findProduct);
+    if (!findProduct) {
+      res.status(400).json({ message: "product not found" });
+    }
+    //find user where data is store
+    const userID = req.userID;
+    const findUser = await RegisterUserModel.findOne(userID);
+
+    //push the product user cart
+    findUser.cart.pop({
+      product: findProduct,
+      quantity: 0,
+    });
+    res.status(200).json({ user: findUser });
+    await findUser.save();
+  } catch (error) {
+    res.status(400).json({ success: false, error: error });
   }
 };

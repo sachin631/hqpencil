@@ -6,6 +6,7 @@ const cors = require("cors");
 const RegisterUserRouter=require("./router/RegisterUserRouter");
 const ProductRouter = require("./router/ProductRouter");
 const orderRouter=require("./router/OrderRouter");
+const messageRouter=require("./router/messagesRouter");
 require("./DBconnection/conn");
 const bodyParser = require("body-parser");
 
@@ -21,6 +22,7 @@ try{
     next();
   });
   app.use(express.json());
+  app.use("/uploads",express.static("./uploads"))
   app.use(cookieParser());
   app.use(bodyParser.urlencoded({extended:true}))
   // app.use(bodyParser.json()); //use one from body parser or express.json
@@ -32,6 +34,7 @@ try{
   app.use(ProductRouter);//router ko last mae rkhna h ye issue
   app.use(RegisterUserRouter);
   app.use(orderRouter);
+  app.use(messageRouter)
   
   app.listen(process.env.PORT, () => {
     console.log(`server start properly at  ${process.env.PORT}`);

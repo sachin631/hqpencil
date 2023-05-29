@@ -25,8 +25,24 @@ export const LogOut=async()=>{
 }
 
 
-export const RegisterUser=async(data)=>{
-    return await commonRequest("POST",`${BASE_URL}/registeruserpost`,data);
+export const RegisterUser=async(data,config)=>{
+    return await commonRequest("POST",`${BASE_URL}/registeruserpost`,data,config);
+}
+
+export const ADDTOCART=async(_id)=>{
+    return await commonRequest("POST",`${BASE_URL}/addtocart/${_id}`);
+}
+
+export const userCartData=async()=>{
+    return await commonRequest("GET",`${BASE_URL}/getcartdata`);
+}
+
+export const deleteFromTheCart=async(_id)=>{
+    return await commonRequest("DELETE",`${BASE_URL}/delete/${_id}`);
+}
+
+export const contactUS=async(data)=>{
+    return await commonRequest("POST",`${BASE_URL}/messageRouter`,data);
 }
 
 

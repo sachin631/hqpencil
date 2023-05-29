@@ -5,10 +5,12 @@ const jwt = require("jsonwebtoken");
 
 //registerUserLogin
 exports.RegisteredUser = async (req, res) => {
+  const file=req.file.filename;
+  console.log(file)
   const { name, phoneNumber, email, passWord, re } = req.body;
 
   try {
-    if (!name || !phoneNumber || !email || !passWord || !passWord) {
+    if (!name || !phoneNumber || !email || !passWord || !file) {
       res
         .status(400)
         .json({ success: false, error: "please fill all fields!" });
@@ -20,10 +22,11 @@ exports.RegisteredUser = async (req, res) => {
           email,
           passWord,
           re,
-          avatar: {
-            public_id: "avatar id",
-            url: "avatr url",
-          },
+          avatar:file
+          // avatar: {
+            // public_id: "avatar id",
+            // url: file,
+          // },
         });
         const finalUserData = await RegisteredUser.save();
         res.status(200).json({ success: true, RegisteredUser: finalUserData });

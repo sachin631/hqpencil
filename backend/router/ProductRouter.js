@@ -40,6 +40,8 @@ ProductRouter.get("/paginationproduct", ProductController.pagination);
 ProductRouter.post("/addtocart/:_id", userAuthentication.userAuthentication, ProductController.addToCart);
 //delete Product from Cart
 ProductRouter.delete("/delete/:_id", userAuthentication.userAuthentication, ProductController.deleteCart);
+//getcartdata for purpose add and remove cart
+ProductRouter.get("/getcartdata",userAuthentication.userAuthentication,ProductController.getCartData);
 
 
 module.exports = ProductRouter;

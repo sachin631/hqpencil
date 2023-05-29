@@ -142,13 +142,22 @@ exports.addToCart = async (req, res) => {
 
     let foundProduct = false;
 
-    findUser.cart.forEach((curelem) => {
+    // findUser.cart.forEach((curelem) => {
+    //   if (curelem.product._id == _id) {
+    //     curelem.quantity += 1;
+    //     foundProduct = true;
+    //     return;
+    //   }
+    // });
+
+    for (let i = 0; i < findUser.cart.length; i++) {
+      const curelem = findUser.cart[i];
       if (curelem.product._id == _id) {
         curelem.quantity += 1;
         foundProduct = true;
-        return;
-      }
-    });
+        break; // exit the loop
+      }
+    }
 
     if (!foundProduct) {
       findUser.cart.push({
@@ -189,3 +198,14 @@ exports.deleteCart = async (req, res) => {
     res.status(400).json({ success: false, error: error });
   }
 };
+
+//getPrducts from user cart by getting login user details
+exports.getCartData=async(req,res)=>{
+  try{
+      const cartData=await RegisterUserModel.findOne({_id:req.userId});
+      res.status(200).json({success:true,cartData:cartData});
+  }catch(error){
+    res.status(400).json({success:false,error:error.message});
+  }
+
+} 

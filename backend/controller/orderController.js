@@ -59,7 +59,9 @@ exports.getSingleorder = async (req, res) => {
 exports.myOrder = async (req, res) => {
   try {
     const userOrder = await orderModel.find({ user: req.userId });
-    res.status(200).json({ success: true, userOrder: userOrder });
+    console.log(userOrder);
+
+    res.status(200).json({ success: true, userOrderr: userOrder });
   } catch (error) {
     res.status(400).json({ success: false, error: error.message });
   }

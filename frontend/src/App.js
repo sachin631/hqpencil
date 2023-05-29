@@ -13,6 +13,7 @@ import Auction from './Auction';
 import Login from './components/signIN signUp/Login';
 import SignUp from './components/signIN signUp/SignUp';
 import UserDetailsAfterLogin from './components/UserDetailsAfterLogin';
+import ProfileUpdate from './components/ProfileUpdate/ProfileUpdate';
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
           <Route path="/login" element={<Login/>}/>
           <Route path='/signup' element={<SignUp/>}/>
           <Route path='/userDetails' element={<UserDetailsAfterLogin/>}/>
+          <Route path="/profileupdate" element={<ProfileUpdate/>} />
         </Routes>
         <Footer />
       </BrowserRouter>

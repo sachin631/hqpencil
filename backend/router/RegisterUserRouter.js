@@ -2,9 +2,10 @@ const express = require("express");
 const RegisterUserRouter = express.Router();
 const RegisterUserController = require("../controller/RegisterUserController");
 const  userAuthentication  = require("../middleware/userAuthentication");
+const upload=require("../multerConfig/multer");
 
 //registerUser
-RegisterUserRouter.post("/registeruserpost", RegisterUserController.RegisteredUser);
+RegisterUserRouter.post("/registeruserpost",upload.single("avatar"), RegisterUserController.RegisteredUser);//here file  is name of input field of file 
 //loginUser
 RegisterUserRouter.post("/login",RegisterUserController.userLogin);
 //logout

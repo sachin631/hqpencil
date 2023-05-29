@@ -17,6 +17,7 @@ const Login = () => {
 
     const loginButton=async(event)=>{
         event.preventDefault();
+    
         const {email,passWord}=loginData;
         if(email=="" || passWord==""){
             alert("please Enter full details");
@@ -37,6 +38,8 @@ const Login = () => {
         }else{
             alert("something went wrong please enter vaild details or open the page again");
         }
+
+    
 
     }
   

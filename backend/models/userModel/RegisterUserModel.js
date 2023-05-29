@@ -35,14 +35,14 @@ const RegisterUserSchema = new mongoose.Schema({
     required: true,
   },
   avatar: {
-    public_id: {
+    // public_id: {
+    //   type: String,
+    //   required: true,
+    // },
+    // url: {
       type: String,
       required: true,
-    },
-    url: {
-      type: String,
-      required: true,
-    },
+    // },
   },
   role:{
     type:String,

@@ -1,12 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { AiFillLike } from "react-icons/ai";
 import { useParams } from "react-router-dom";
-import { getParticularProduct } from "./services/apis";
-
+import { ADDTOCART, getParticularProduct } from "./services/apis";
+import { useDispatch } from "react-redux";
+import  {addToCart} from "./RTK/cartSlice"; 
+// import { removeFromCart } from "./RTK/cartSlice";
 
 const SingleProduct = () => {
-  
+  // const dispatch= useDispatch()
+  //addToCart button click individual product data stored
+  const [addCardData, setAddCartData] = useState();
 
+  //storing single product data
   const [singleProductData, setSingleProductData] = useState();
   const { _id } = useParams();
   useEffect(() => {
@@ -17,6 +22,22 @@ const SingleProduct = () => {
     fecthData();
   }, []);
   console.log(singleProductData);
+  
+  // dispatch(addToCart(addCardData));
+
+  const addCartButton = async (_id) => {
+    const response = await ADDTOCART(_id);
+    console.log("clg", _id);
+    console.log("addToCart", response);
+    setAddCartData(response);
+    console.log("final", addCardData.data.user.cart);
+    if (response.status==200){
+      alert("Products added to cart");
+    }
+    else{
+      alert("somthinng went wrong");
+    }
+  };
 
   return (
     <>
@@ -28,14 +49,11 @@ const SingleProduct = () => {
           <div className="flex max-sm:grid max-md:gap-10 gap-20">
             <div className="w-1/3 max-lg:w-1/2 max-sm:w-[100%]">
               {/* carosel */}
-              
 
               <img
                 className="h-[500px] w-full bg-gray-100 rounded-3xl p-5"
                 src={`${singleProductData.images[0].url}`}
-                
               />
-             
             </div>
             <div className="flex flex-col gap-2 w-1/2 max-sm:w-[100%]">
               {/* <span className="text-green-400">flashsale.Availability</span> */}
@@ -76,7 +94,9 @@ const SingleProduct = () => {
                 </div>
               </div>
               <div className="my-4">
-                <button class="btn">Add to Cart</button>
+                <button class="btn" onClick={() => addCartButton(_id)}>
+                  Add to Cart
+                </button>
               </div>
               <div className="flex py-5 gap-5">
                 <div className="w-1/2">

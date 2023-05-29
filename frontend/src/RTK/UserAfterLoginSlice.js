@@ -14,5 +14,6 @@ const userdetailsafterloginSlice=createSlice({
     
 });
 
-export default userdetailsafterloginSlice.reducer;
-export const {AllUserDetails}=userdetailsafterloginSlice.actions;
+//we have to exeport reducer and actions
+export default userdetailsafterloginSlice.reducer;  //reducer is property 
+export const {AllUserDetails}=userdetailsafterloginSlice.actions; // actions is a property 
